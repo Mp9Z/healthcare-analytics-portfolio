@@ -1,0 +1,155 @@
+--- Q1: female patients in Massachusetts
+                  id                  |      birthdate      | gender |   city    |     state     
+--------------------------------------+---------------------+--------+-----------+---------------
+ 7f4ecb1c-eb6f-f819-0d42-b86912ee0d38 | 1911-07-14 00:00:00 | F      | Westfield | Massachusetts
+ 7bc66758-5d59-0b38-1532-29a33fa146c1 | 1911-07-14 00:00:00 | F      | Westfield | Massachusetts
+ 6a5b7896-78b9-2b39-0219-a618a7562372 | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ 3c26a41e-d1a5-45ed-6956-09bcefe3c08c | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ 37ab5291-cc03-1798-2097-d35809156954 | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ b1d84e5c-1c09-c772-2ee1-ca095df0d435 | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ 45a3f02c-149e-c09f-ca71-be5d33481bbb | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ 7a9c0e7a-c835-7b68-101d-190ddf573df9 | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ 33ee607c-5afa-d4ff-85bc-3191531cf8c1 | 1911-11-04 00:00:00 | F      | Norfolk   | Massachusetts
+ abbfa35f-d330-3e74-cfba-5c0ad5a2166b | 1912-10-07 00:00:00 | F      | Norton    | Massachusetts
+(10 rows)
+
+--- Q2: encounters joined to patients and payers
+                  id                  |        start        | encounterclass | total_claim_cost | gender |     state     | payer_name 
+--------------------------------------+---------------------+----------------+------------------+--------+---------------+------------
+ 748f8357-6cc7-551d-f31a-32fa2cf84126 | 2019-02-17 05:07:38 | wellness       |           877.79 | M      | Massachusetts | Medicaid
+ 5a4735ae-423f-6563-28ab-b3d11b49b2d4 | 2019-03-24 05:07:38 | wellness       |           269.68 | M      | Massachusetts | Medicaid
+ 0bee1ce6-3e2c-5506-f71c-a7ba8f64a3d3 | 2019-05-26 05:07:38 | wellness       |          1292.75 | M      | Massachusetts | Medicaid
+ 6e93bcf9-45a4-8528-0120-1c1eaa930faf | 2019-07-28 05:07:38 | wellness       |          1323.87 | M      | Massachusetts | Medicaid
+ 8b6787c3-4316-a0cb-899d-4746525c319f | 2019-10-27 05:07:38 | wellness       |           831.76 | M      | Massachusetts | Medicaid
+ 8f424287-ee3a-c144-bc1d-3ba926e93fd5 | 2020-01-26 05:07:38 | wellness       |           129.16 | M      | Massachusetts | Medicaid
+ fb15e123-fea7-cae8-6d49-ee9d2a85fc84 | 2020-02-05 06:07:38 | ambulatory     |            77.49 | M      | Massachusetts | Medicaid
+ 01efcc52-15d6-51e9-faa2-bee069fcbe44 | 2020-02-17 10:07:38 | ambulatory     |           594.14 | M      | Massachusetts | Medicaid
+ 1a7debfc-9582-7f23-a109-4f154a182ee2 | 2020-04-26 05:07:38 | wellness       |          1614.96 | M      | Massachusetts | Medicaid
+ bf38c711-941f-7509-f9ec-b864d6929f3f | 2020-07-26 05:07:38 | wellness       |           269.68 | M      | Massachusetts | Medicaid
+(10 rows)
+
+--- Q3: patients with NO encounters (LEFT JOIN)
+ id 
+----
+(0 rows)
+
+--- Q4: volume and cost by encounter class
+ encounterclass | encounters | avg_cost |  total_cost  
+----------------+------------+----------+--------------
+ ambulatory     |      20124 |  6524.19 | 131292859.61
+ wellness       |      24038 |  1909.49 |  45900358.66
+ outpatient     |      10837 |  2827.51 |  30641731.90
+ emergency      |       2168 |  7926.41 |  17184454.33
+ inpatient      |       1728 |  8766.00 |  15147647.00
+ urgentcare     |       2564 |  5798.27 |  14866776.58
+(6 rows)
+
+--- Q5: payers with total cost above 100000 (HAVING)
+          name          |  total_cost  
+------------------------+--------------
+ NO_INSURANCE           | 101549539.78
+ Medicare               |  32339927.01
+ Medicaid               |  25966027.19
+ Blue Cross Blue Shield |  17818677.45
+ Anthem                 |  16344629.10
+ Aetna                  |  16016476.31
+ Cigna Health           |  14699780.74
+ Humana                 |  14418228.81
+ UnitedHealthcare       |  13851239.73
+ Dual Eligible          |   2029301.96
+(10 rows)
+
+--- Q6: patients by age band (CASE)
+ age_band | patients 
+----------+----------
+ 0-17     |      182
+ 18-39    |      321
+ 40-64    |      373
+ 65+      |      287
+(4 rows)
+
+--- Q7: percent of cost covered by each payer
+          name          | pct_covered 
+------------------------+-------------
+ Medicaid               |        94.1
+ Dual Eligible          |        92.1
+ Medicare               |        79.3
+ Blue Cross Blue Shield |        64.9
+ Aetna                  |         0.1
+ UnitedHealthcare       |         0.0
+ Anthem                 |         0.0
+ Cigna Health           |         0.0
+ Humana                 |         0.0
+ NO_INSURANCE           |         0.0
+(10 rows)
+
+--- Q8: patients above average lifetime cost (subquery)
+               patient                | total_cost  
+--------------------------------------+-------------
+ e23c7a6e-6ef2-3932-1361-b73b4c8a3961 | 13197853.38
+ 55c5b8d3-99d0-58ad-8444-e42bb81bd5c7 | 10218320.34
+ e6178711-3936-e332-814d-19d8851e314d |  9648942.94
+ ef167059-cef0-12c4-49db-993ca3a20c01 |  2003465.35
+ 1f528581-7613-2b96-dce3-68c7cf967ea1 |  1426341.68
+ e0807fab-552e-931f-366f-761dff93a52e |  1240575.23
+ 454bbec4-42bc-bd2c-fe3a-f8f4fc4346e9 |  1231629.94
+ ef82862b-c0f8-7440-2dcb-4d7137349f0d |  1172413.69
+ 4b0301f7-6c9e-e170-d540-eda9466a29d7 |  1153464.74
+ 98c5afd5-00e6-d2d8-db5c-405275c10c71 |  1130714.40
+(10 rows)
+
+--- Q9: patients with a diabetes diagnosis (IN subquery)
+                  id                  | gender |     state     
+--------------------------------------+--------+---------------
+ aade3c61-92bd-d079-9d28-0b2b7fde0fbb | M      | Massachusetts
+ 55a6a46e-a1a4-0298-e58f-c0cb27cbb022 | F      | Massachusetts
+ 33c2ca32-ae38-66c5-474f-83273568906e | M      | Massachusetts
+ 57b53310-98a9-f011-69c0-02068c37d83b | F      | Massachusetts
+ 1cfa5a70-7f3c-4227-5cf1-e182fcff4cd4 | F      | Massachusetts
+ 060e72d3-912e-55cd-0c92-5faa6cb7a6db | M      | Massachusetts
+ 4f5a07ca-02e0-8981-3c30-4d9924a169a3 | M      | Massachusetts
+ be82309d-1a8f-df82-4cd6-5f03e1060e8e | M      | Massachusetts
+ ceec80e3-5c50-be88-198c-e98375c8e8a2 | M      | Massachusetts
+ 6b3a5686-0f63-5ce4-cc03-0bba2052f7b1 | F      | Massachusetts
+(10 rows)
+
+--- Q10: monthly encounter trend
+        month        | encounters 
+---------------------+------------
+ 2021-11-01 00:00:00 |        190
+ 2021-10-01 00:00:00 |        319
+ 2021-09-01 00:00:00 |        321
+ 2021-08-01 00:00:00 |        339
+ 2021-07-01 00:00:00 |        340
+ 2021-06-01 00:00:00 |        369
+ 2021-05-01 00:00:00 |        527
+ 2021-04-01 00:00:00 |        547
+ 2021-03-01 00:00:00 |        524
+ 2021-02-01 00:00:00 |        378
+ 2021-01-01 00:00:00 |        371
+ 2020-12-01 00:00:00 |        256
+ 2020-11-01 00:00:00 |        284
+ 2020-10-01 00:00:00 |        290
+ 2020-09-01 00:00:00 |        283
+ 2020-08-01 00:00:00 |        284
+ 2020-07-01 00:00:00 |        273
+ 2020-06-01 00:00:00 |        243
+ 2020-05-01 00:00:00 |        275
+ 2020-04-01 00:00:00 |        270
+ 2020-03-01 00:00:00 |        276
+ 2020-02-01 00:00:00 |        254
+ 2020-01-01 00:00:00 |        276
+ 2019-12-01 00:00:00 |        266
+(24 rows)
+
+--- Q11: duplicate encounter ids (expect 0 rows)
+ id | count 
+----+-------
+(0 rows)
+
+--- Q12: null and negative profile
+ total_rows | null_payer | null_cost | negative_cost 
+------------+------------+-----------+---------------
+      61459 |          0 |         0 |             0
+(1 row)
+
