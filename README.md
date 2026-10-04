@@ -16,7 +16,7 @@ EDIT: Pick one real moment. Example: "Stretch 1 surprised me because the top 'co
 included things like employment status and medication reviews, not just diseases. It showed
 me that raw healthcare data needs filtering before it answers a business question."
 
-## Interview questions
+##
 1. **INNER JOIN vs LEFT JOIN?**
    INNER JOIN returns only rows with a match in both tables. LEFT JOIN returns every row
    from the left table, with NULLs where the right table has no match. I use LEFT JOIN
